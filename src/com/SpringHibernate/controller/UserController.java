@@ -9,31 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.SpringHibernate.facade.AdminFacade;
 import com.SpringHibernate.facade.CityFacade;
-import com.SpringHibernate.model.AdminMaster;
-import com.SpringHibernate.model.PackageMaster;
+import com.SpringHibernate.facade.UserFacade;
+import com.SpringHibernate.model.UserMaster;
 import com.SpringHibernate.util.Constant;
 
 @Controller
 @SessionAttributes({"sessionuser"})
-public class AdminController {
+public class UserController {
 	
 	Logger logger=Logger.getLogger(getClass());
 	
 	@Autowired
-	AdminFacade adminFacade;
+	UserFacade adminFacade;
 	
 	@Autowired
 	CityFacade cityFacade;
 	
 	@RequestMapping(value="admin/doAdminLogin")
-	public ModelAndView AdminAuthendication(@ModelAttribute("command") AdminMaster adminMaster){
+	public ModelAndView AdminAuthendication(@ModelAttribute("command") UserMaster adminMaster){
 		HashMap<String, Object> userResponse = new HashMap<String, Object>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		try{
@@ -59,7 +56,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="admin/doAdminForpass")
-	public String AdminForgotpassword(@ModelAttribute("command") AdminMaster adminMaster){
+	public String AdminForgotpassword(@ModelAttribute("command") UserMaster adminMaster){
 		HashMap<String, Object> userResponse = new HashMap<String, Object>();
 		try{
 			userResponse=adminFacade.getAdminPassword(adminMaster);
@@ -79,14 +76,6 @@ public class AdminController {
 		}
 		return "adminForgotpass";
 	}
-	
-	@RequestMapping(value="/admin/getCity",method = RequestMethod.GET)
-    public ModelAndView setupForm(@RequestParam("Id") int id,@ModelAttribute("command")PackageMaster packageMaster) {
-		HashMap<Integer, String> cities=new HashMap<Integer, String>();
-		cities=cityFacade.getCitiesByState_id(id);
-        return new ModelAndView("adminAddpackage","packageMaster",packageMaster)
-					.addObject("cities", cities);
-    }
 }
 
 

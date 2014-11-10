@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Entity
 @Table(name="Admin_Master")
-public class AdminMaster {
+public class UserMaster {
 	int id;
 	String userName;
 	String password;

@@ -15,7 +15,7 @@
         <property name="show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 	    
-        <mapping class="com.SpringHibernate.model.AdminMaster"></mapping>
+        <mapping class="com.SpringHibernate.model.UserMaster"></mapping>
         <mapping class="com.SpringHibernate.model.StateMaster"></mapping>
         <mapping class="com.SpringHibernate.model.CityMaster"></mapping>
   	</session-factory>

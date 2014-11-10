@@ -7,33 +7,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.SpringHibernate.DAO.AdminDAO;
-import com.SpringHibernate.model.AdminMaster;
+import com.SpringHibernate.DAO.UserDAO;
+import com.SpringHibernate.model.UserMaster;
 import com.SpringHibernate.util.Constant;
 
 @Service
-public class AdminFacadeimpl implements AdminFacade {
+public class UserFacadeimpl implements UserFacade {
 	
 	@Autowired
-	AdminDAO adminDAO;
+	UserDAO adminDAO;
 	
 	@Override
 	@Transactional
-	public HashMap<String, Object> adminAuthendication(AdminMaster adminMaster) {
+	public HashMap<String, Object> adminAuthendication(UserMaster adminMaster) {
 		return adminDAO.adminAuthendication(adminMaster);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public HashMap<String, Object> getAdminPassword(AdminMaster adminMaster) {
+	public HashMap<String, Object> getAdminPassword(UserMaster adminMaster) {
 		HashMap<String, Object> adminResponse=new HashMap<String, Object>();
-		List<AdminMaster> adminMasterList;
+		List<UserMaster> adminMasterList;
 		try{
 			adminResponse=adminDAO.getAllAdmin();
 			if(adminResponse.get("CODE").equals(Constant.SUCCESS_CODE)){
-				adminMasterList=(List<AdminMaster>) adminResponse.get("ADMINLIST");
-				for(AdminMaster am:adminMasterList){
+				adminMasterList=(List<UserMaster>) adminResponse.get("ADMINLIST");
+				for(UserMaster am:adminMasterList){
 					if(am.getUserName().equalsIgnoreCase(adminMaster.getUserName())){
 						adminResponse.put("CODE", Constant.SUCCESS_CODE);
 						adminResponse.put("PASSWORD", am.getPassword());

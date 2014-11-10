@@ -11,11 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.SpringHibernate.model.AdminMaster;
+import com.SpringHibernate.model.UserMaster;
 import com.SpringHibernate.util.Constant;
 
 @Repository
-public class AdminDAOimpl implements AdminDAO{
+public class UserDAOimpl implements UserDAO{
 	
 	Logger logger=Logger.getLogger(getClass());
 	
@@ -23,13 +23,13 @@ public class AdminDAOimpl implements AdminDAO{
 	private SessionFactory sessionFactory;
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String, Object> adminAuthendication(AdminMaster adminMaster){
+	public HashMap<String, Object> adminAuthendication(UserMaster adminMaster){
 		
-		List<AdminMaster> usrLst = null;
+		List<UserMaster> usrLst = null;
 		HashMap<String, Object> userResponse = new HashMap<String, Object>();
 		try{
 			Session session  = sessionFactory.getCurrentSession();
-			Criteria crit= session.createCriteria(AdminMaster.class)
+			Criteria crit= session.createCriteria(UserMaster.class)
 					.add(Restrictions.eq("userName",adminMaster.getUserName()))
 					.add(Restrictions.eq("password",adminMaster.getPassword()));
 			usrLst = crit.list();
@@ -60,11 +60,11 @@ public class AdminDAOimpl implements AdminDAO{
 	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Object> getAllAdmin(){
-		List<AdminMaster> usrLst = null;
+		List<UserMaster> usrLst = null;
 		HashMap<String, Object> userResponse = new HashMap<String, Object>();
 		try{
 			Session session  = sessionFactory.getCurrentSession();
-			Criteria crit= session.createCriteria(AdminMaster.class);
+			Criteria crit= session.createCriteria(UserMaster.class);
 			usrLst = crit.list();
 			logger.info("Fetch Admin Data Size:: "+usrLst.size());
 			if (usrLst.size() != 0) {
