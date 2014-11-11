@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.SpringHibernate.DAO.UserDAO;
 import com.SpringHibernate.model.UserMaster;
-import com.SpringHibernate.util.Constant;
+import com.SpringHibernate.util.Constants;
 
 @Service
 public class UserFacadeimpl implements UserFacade {
@@ -19,8 +19,8 @@ public class UserFacadeimpl implements UserFacade {
 	
 	@Override
 	@Transactional
-	public HashMap<String, Object> adminAuthendication(UserMaster adminMaster) {
-		return adminDAO.adminAuthendication(adminMaster);
+	public HashMap<String, Object> userAuthendication(UserMaster userMaster) {
+		return adminDAO.userAuthendication(userMaster);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -31,26 +31,26 @@ public class UserFacadeimpl implements UserFacade {
 		List<UserMaster> adminMasterList;
 		try{
 			adminResponse=adminDAO.getAllAdmin();
-			if(adminResponse.get("CODE").equals(Constant.SUCCESS_CODE)){
+			if(adminResponse.get("CODE").equals(Constants.SUCCESS_CODE)){
 				adminMasterList=(List<UserMaster>) adminResponse.get("ADMINLIST");
 				for(UserMaster am:adminMasterList){
-					if(am.getUserName().equalsIgnoreCase(adminMaster.getUserName())){
-						adminResponse.put("CODE", Constant.SUCCESS_CODE);
+					if(am.getEmail_address().equalsIgnoreCase(adminMaster.getEmail_address())){
+						adminResponse.put("CODE", Constants.SUCCESS_CODE);
 						adminResponse.put("PASSWORD", am.getPassword());
 						break;
 					}
 					else{
-						adminResponse.put("CODE", Constant.ERROR_CODE);
+						adminResponse.put("CODE", Constants.ERROR_CODE);
 					}
 				}
 			}
 			else{
-				adminResponse.put("CODE", Constant.ERROR_CODE);
+				adminResponse.put("CODE", Constants.ERROR_CODE);
 			}
 			return adminResponse;
 		}
 		catch(Exception e){
-			adminResponse.put("CODE", Constant.ERROR_CODE);
+			adminResponse.put("CODE", Constants.ERROR_CODE);
 			return adminResponse;
 		}
 		finally{

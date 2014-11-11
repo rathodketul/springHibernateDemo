@@ -57,7 +57,7 @@
 	<table border="1">
 	<tr>
 		<td>UserName</td>
-		<td><s:input path="userName"/> </td>
+		<td><s:input path="email_address"/> </td>
 	</tr>
 	<tr>
 		<td>Password</td>
@@ -68,9 +68,6 @@
 	</tr>
 	<tr>
 		<td colspan="2" align="center">Remember Me<input type="checkbox" id="chkRememberMe"></td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center">Forgot Password <a href="#">Click Here</a></td>
 	</tr>
 	</table>
 </s:form>

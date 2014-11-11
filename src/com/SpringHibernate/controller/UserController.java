@@ -9,44 +9,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.SpringHibernate.facade.CityFacade;
 import com.SpringHibernate.facade.UserFacade;
 import com.SpringHibernate.model.UserMaster;
-import com.SpringHibernate.util.Constant;
+import com.SpringHibernate.util.Constants;
 
 @Controller
 @SessionAttributes({"sessionuser"})
 public class UserController {
 	
-	Logger logger=Logger.getLogger(getClass());
+	private final Logger logger=Logger.getLogger(getClass());
 	
 	@Autowired
-	UserFacade adminFacade;
+	UserFacade userFacade;
 	
 	@Autowired
 	CityFacade cityFacade;
 	
-	@RequestMapping(value="admin/doAdminLogin")
-	public ModelAndView AdminAuthendication(@ModelAttribute("command") UserMaster adminMaster){
+	@RequestMapping(value="dologin",method=RequestMethod.POST)
+	public ModelAndView AdminAuthendication(@ModelAttribute("command") UserMaster userMaster){
 		HashMap<String, Object> userResponse = new HashMap<String, Object>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		try{
 			logger.info("Checking Authendication");
-			userResponse=adminFacade.adminAuthendication(adminMaster);
-			if(userResponse.get("CODE").equals(Constant.SUCCESS_CODE)){
-				return new ModelAndView("Home").addObject("sessionuser", adminMaster.getUserName());
+			userResponse=userFacade.userAuthendication(userMaster);
+			if(userResponse.get("CODE").equals(Constants.SUCCESS_CODE)){
+				return new ModelAndView("Home").addObject("sessionuser", userMaster.getEmail_address());
 			}
 			else{
-				map.put("errormessage", Constant.LOGIN_FAILURE);
+				map.put("errormessage", Constants.LOGIN_FAILURE);
 				return new ModelAndView("adminLogin", map);
 			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			map.put("errormessage", Constant.LOGIN_FAILURE);
+			map.put("errormessage", Constants.LOGIN_FAILURE);
 			return new ModelAndView("adminLogin", map);
 		}
 		finally{
@@ -59,8 +60,8 @@ public class UserController {
 	public String AdminForgotpassword(@ModelAttribute("command") UserMaster adminMaster){
 		HashMap<String, Object> userResponse = new HashMap<String, Object>();
 		try{
-			userResponse=adminFacade.getAdminPassword(adminMaster);
-			if(userResponse.get("CODE").equals(Constant.SUCCESS_CODE)){
+			userResponse=userFacade.getAdminPassword(adminMaster);
+			if(userResponse.get("CODE").equals(Constants.SUCCESS_CODE)){
 				String pass=userResponse.get("PASSWORD").toString();
 				logger.info("Password is ::"+pass);
 			}

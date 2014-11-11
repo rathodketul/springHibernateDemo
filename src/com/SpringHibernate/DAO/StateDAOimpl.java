@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.SpringHibernate.model.StateMaster;
-import com.SpringHibernate.util.Constant;
+import com.SpringHibernate.util.Constants;
 
 /**
 @aurthor indianic
@@ -45,7 +45,7 @@ public class StateDAOimpl implements StateDAO{
 			return stateResponse;
 		}
 		catch(Exception e){
-			stateResponse.put("CODE", Constant.ERROR_CODE);
+			stateResponse.put("CODE", Constants.ERROR_CODE);
 			logger.error("State Data Fetching "+e.getMessage());
 			return stateResponse;
 		}

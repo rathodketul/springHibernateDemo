@@ -1,6 +1,6 @@
 package com.SpringHibernate.util;
 
-public class Constant {
+public class Constants {
 	public static final String MAIL_BODY = "<table width=600px border=0 cellpadding=5 style=border:1px solid #ccc;text-align:center; cellspacing=0>"
 			+ "<tr bgcolor=#ccc><td height=20></td></tr>"
 			+ "<tr bgcolor=#E5E5E5 align=center><td style=border-bottom:1px solid #ccc;height:200px;><a href=http://www.go4cabs.com><img src=http://www.go4cabs.com/img/logo.png align=center  /></a></td></tr>"

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.SpringHibernate.model.CityMaster;
 import com.SpringHibernate.model.StateMaster;
-import com.SpringHibernate.util.Constant;
+import com.SpringHibernate.util.Constants;
 
 /**
 @aurthor indianic
@@ -46,7 +46,7 @@ public class CityDAOimpl implements CityDAO{
 			return cityResponse;
 		}
 		catch(Exception e){
-			cityResponse.put("CODE", Constant.ERROR_CODE);
+			cityResponse.put("CODE", Constants.ERROR_CODE);
 			logger.error("City Data Fetching "+e.getMessage());
 			return cityResponse;
 		}
