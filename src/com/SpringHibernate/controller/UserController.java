@@ -32,27 +32,17 @@ public class UserController {
 	
 	@RequestMapping(value="dologin",method=RequestMethod.POST)
 	public ModelAndView AdminAuthendication(@ModelAttribute("command") UserMaster userMaster){
-		HashMap<String, Object> userResponse = new HashMap<String, Object>();
-		Map<String, Object> map = new HashMap<String, Object>();
 		try{
-			logger.info("Checking Authendication");
-			userResponse=userFacade.userAuthendication(userMaster);
-			if(userResponse.get("CODE").equals(Constants.SUCCESS_CODE)){
+			if(userFacade.userAuthendication(userMaster)){
 				return new ModelAndView("Home").addObject("sessionuser", userMaster.getEmail_address());
 			}
 			else{
-				map.put("errormessage", Constants.LOGIN_FAILURE);
-				return new ModelAndView("adminLogin", map);
+				return new ModelAndView("Login").addObject("errormessage", Constants.LOGIN_FAILURE);
 			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			map.put("errormessage", Constants.LOGIN_FAILURE);
-			return new ModelAndView("adminLogin", map);
-		}
-		finally{
-			userResponse=null;
-			map=null;
+			return new ModelAndView("Login").addObject("errormessage", Constants.LOGIN_FAILURE);
 		}
 	}
 	

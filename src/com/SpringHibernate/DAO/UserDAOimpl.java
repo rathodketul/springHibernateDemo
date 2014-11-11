@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,37 +24,24 @@ public class UserDAOimpl implements UserDAO{
 	private SessionFactory sessionFactory;
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String, Object> userAuthendication(UserMaster userMaster){
-		List<UserMaster> usrLst = null;
-		HashMap<String, Object> userResponse = new HashMap<String, Object>();
+	public boolean userAuthendication(UserMaster userMaster){
+		boolean flag=false;
 		try{
 			Session session  = sessionFactory.getCurrentSession();
-			Criteria crit= session.createCriteria(UserMaster.class)
+			List<Integer> usrLst= session.createCriteria(UserMaster.class)
+					.setProjection(Projections.rowCount())
 					.add(Restrictions.eq("email_address",userMaster.getEmail_address()))
-					.add(Restrictions.eq("password",userMaster.getPassword()));
-			usrLst = crit.list();
-			logger.info("Fetach Data Size:: "+usrLst.size());
-			if (usrLst.size() != 0) {
-				logger.info("Fetach Data Success");
-				userResponse.put("CODE", Constants.SUCCESS_CODE);
-				userResponse.put("MSG", Constants.LOGIN_SUCCESS);
+					.add(Restrictions.eq("password",userMaster.getPassword()))
+					.list();
+			int i=usrLst.get(0);
+			if(i>0){
+				flag=true;
 			}
-			else{
-				logger.error("Login Fail");
-				userResponse.put("CODE", Constants.ERROR_CODE);
-				userResponse.put("MSG", Constants.LOGIN_FAILURE);
-			}
-			return userResponse;
+			return flag;
 		}
 		catch(Exception e){
-			userResponse.put("CODE", Constants.ERROR_CODE);
-			userResponse.put("MSG", Constants.LOGIN_FAILURE);
-			logger.error("Admin Login "+e.getMessage());
-			return userResponse;
-		}
-		finally{
-			userResponse=null;
-			usrLst=null;
+			logger.error("Login Error"+e.getMessage());
+			return flag;
 		}
 	}
 	

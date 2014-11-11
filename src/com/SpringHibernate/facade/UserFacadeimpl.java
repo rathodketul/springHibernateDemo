@@ -15,12 +15,12 @@ import com.SpringHibernate.util.Constants;
 public class UserFacadeimpl implements UserFacade {
 	
 	@Autowired
-	UserDAO adminDAO;
+	UserDAO userDAO;
 	
 	@Override
 	@Transactional
-	public HashMap<String, Object> userAuthendication(UserMaster userMaster) {
-		return adminDAO.userAuthendication(userMaster);
+	public boolean userAuthendication(UserMaster userMaster) {
+		return userDAO.userAuthendication(userMaster);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -30,7 +30,7 @@ public class UserFacadeimpl implements UserFacade {
 		HashMap<String, Object> adminResponse=new HashMap<String, Object>();
 		List<UserMaster> adminMasterList;
 		try{
-			adminResponse=adminDAO.getAllAdmin();
+			adminResponse=userDAO.getAllAdmin();
 			if(adminResponse.get("CODE").equals(Constants.SUCCESS_CODE)){
 				adminMasterList=(List<UserMaster>) adminResponse.get("ADMINLIST");
 				for(UserMaster am:adminMasterList){
