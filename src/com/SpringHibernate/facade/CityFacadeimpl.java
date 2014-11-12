@@ -17,7 +17,8 @@ import com.SpringHibernate.model.CityMaster;
  */
 @Service
 public class CityFacadeimpl implements CityFacade{
-	Logger logger=Logger.getLogger(getClass());
+	
+	private final Logger logger=Logger.getLogger(getClass());
 	
 	@Autowired
 	CityDAO cityDAO;
@@ -25,24 +26,19 @@ public class CityFacadeimpl implements CityFacade{
 	@Transactional
 	@Override
 	public HashMap<Integer, String> getCitiesByState_id(int state_id) {
-		List<CityMaster> cityLst = null;
 		HashMap<Integer, String> cities=new HashMap<Integer, String>();
-		HashMap<String, Object> cityResponse=cityDAO.getCitiesByState_id(state_id);
 		try{
-			cityLst=(List<CityMaster>) cityResponse.get("CITYLIST");
+			List<CityMaster> cityLst=cityDAO.getCitiesByState_id(state_id);
 			for(CityMaster cm:cityLst){
 				cities.put(cm.getCity_id(), cm.getCity_name());
 			}
 			return cities;
 		}
 		catch(Exception e){
-			logger.error(e.getMessage());
 			return cities;
 		}
 		finally{
-			cityLst=null;
 			cities=null;
-			cityResponse=null;
 		}
 	}
 

@@ -1,12 +1,14 @@
 
 package com.SpringHibernate.DAO;
 
-import java.util.HashMap;
+import java.util.List;
+
+import com.SpringHibernate.model.StateMaster;
 
 /**
 @aurthor indianic
  */
 
 public interface StateDAO {
-	public HashMap<String,Object> getAllState();
+	public List<StateMaster> getAllState();
 }

@@ -8,6 +8,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Welcome...${sessionuser}
+<table border="1">
+	<tr>
+		<td colspan="3">Welcome...${sessionuser}</td>
+	</tr>
+	<tr>
+		<td><a href="Home.html">Home</a></td>
+		<td><a href="Profile.html">Profile</a></td>
+		<td><a href="#">Logout</a></td>
+	</tr>
+</table>
+	
 </body>
 </html>

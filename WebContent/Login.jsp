@@ -57,6 +57,9 @@
 <s:form id="login-form" action="dologin.html" method="post" commandName="command" onsubmit="validateLoginForm()">
 	<table border="1">
 	<tr>
+		<td colspan="2"><label class="error">${errormessage}</label></td>
+	</tr>
+	<tr>
 		<td>UserName</td>
 		<td><s:input id="email_address" path="email_address"/> </td>
 	</tr>

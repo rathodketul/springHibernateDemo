@@ -1,8 +1,9 @@
 
 package com.SpringHibernate.controller;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.SpringHibernate.facade.CityFacade;
+import com.SpringHibernate.facade.StateFacade;
 import com.SpringHibernate.facade.UserFacade;
 import com.SpringHibernate.model.UserMaster;
 import com.SpringHibernate.util.Constants;
@@ -30,6 +32,9 @@ public class UserController {
 	@Autowired
 	CityFacade cityFacade;
 	
+	@Autowired
+	StateFacade stateFacade;
+	
 	@RequestMapping(value="dologin",method=RequestMethod.POST)
 	public ModelAndView AdminAuthendication(@ModelAttribute("command") UserMaster userMaster){
 		try{
@@ -41,31 +46,24 @@ public class UserController {
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			logger.error(e);
 			return new ModelAndView("Login").addObject("errormessage", Constants.LOGIN_FAILURE);
 		}
 	}
 	
-	@RequestMapping(value="admin/doAdminForpass")
-	public String AdminForgotpassword(@ModelAttribute("command") UserMaster adminMaster){
-		HashMap<String, Object> userResponse = new HashMap<String, Object>();
+	@RequestMapping(value="/Profile",method=RequestMethod.GET)
+	public ModelAndView showProfilePage(HttpSession session){
 		try{
-			userResponse=userFacade.getAdminPassword(adminMaster);
-			if(userResponse.get("CODE").equals(Constants.SUCCESS_CODE)){
-				String pass=userResponse.get("PASSWORD").toString();
-				logger.info("Password is ::"+pass);
-			}
-			else{
-				logger.error("Password Not Found");
-			}
+			UserMaster userMaster=userFacade.getUser(session.getAttribute("sessionuser").toString());
+			return new ModelAndView("Profile")
+			.addObject("user", userMaster)
+			.addObject("state", stateFacade.getAllState())
+			.addObject("city", cityFacade.getCitiesByState_id(userMaster.getState_master().getState_id()));
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			logger.error(e);
+			return new ModelAndView("Profile");
 		}
-		finally{
-			userResponse=null;
-		}
-		return "adminForgotpass";
 	}
 }
 
