@@ -1,8 +1,6 @@
 
 package com.SpringHibernate.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -51,7 +49,7 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/Profile",method=RequestMethod.GET)
+	@RequestMapping(value="/Profile")
 	public ModelAndView showProfilePage(HttpSession session){
 		try{
 			UserMaster userMaster=userFacade.getUser(session.getAttribute("sessionuser").toString());
@@ -64,6 +62,23 @@ public class UserController {
 			logger.error(e);
 			return new ModelAndView("Profile");
 		}
+	}
+	
+	@RequestMapping(value="/updateProfile",method=RequestMethod.POST)
+	public ModelAndView updateUserProfile(@ModelAttribute("command") UserMaster userMaster,HttpSession session){
+		userMaster.setEmail_address(session.getAttribute("sessionuser").toString());
+		userFacade.updUser(userMaster);
+		userMaster=userFacade.getUser(session.getAttribute("sessionuser").toString());
+		return new ModelAndView("Profile")
+		.addObject("user", userMaster)
+		.addObject("state", stateFacade.getAllState())
+		.addObject("city", cityFacade.getCitiesByState_id(userMaster.getState_master().getState_id()));
+	}
+	
+	@RequestMapping(value="/Logout")
+	public String userLogout(@ModelAttribute("command") UserMaster userMaster,HttpSession session) {
+		session.removeAttribute("sessionuser");
+		return "Login";
 	}
 }
 

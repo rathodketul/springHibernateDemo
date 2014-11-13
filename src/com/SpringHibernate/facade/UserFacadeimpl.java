@@ -10,6 +10,7 @@ import com.SpringHibernate.model.UserMaster;
 @Service
 public class UserFacadeimpl implements UserFacade {
 	
+
 	@Autowired
 	UserDAO userDAO;
 	
@@ -25,6 +26,10 @@ public class UserFacadeimpl implements UserFacade {
 		return userDAO.getUser(email_address);
 	}
 
-	
+	@Override
+	@Transactional
+	public boolean updUser(UserMaster userMaster) {
+		return userDAO.updUser(userMaster);
+	}
 	
 }
